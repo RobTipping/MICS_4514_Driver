@@ -12,17 +12,23 @@
 
 #include "stm32L0xx_hal.h" // Needed for I2C
 
-#define           MICS_ADDRESS_0            0x75
-#define           MICS_ADDRESS_1            0x76
-#define           MICS_ADDRESS_2            0x77
-#define           MICS_ADDRESS_3            0x78
+#define           MICS_ADDRESS_0            0x75 // A0=0, A1=0
+#define           MICS_ADDRESS_1            0x76 // A0=1, A1=0
+#define           MICS_ADDRESS_2            0x77 // A0=0, A1=1
+#define           MICS_ADDRESS_3            0x78 // A0=1, A1=1
+
+// data registers
 #define           OX_REGISTER_HIGH          0x04
 #define           OX_REGISTER_LOW           0x05
 #define           RED_REGISTER_HIGH         0x06
 #define           RED_REGISTER_LOW          0x07
 #define           POWER_REGISTER_HIGH       0x08
 #define           POWER_REGISTER_LOW        0x09
+
+// Power State Register
 #define           POWER_MODE_REGISTER       0x0a
+
+// Values
 #define           SLEEP_MODE                0x00
 #define           WAKE_UP_MODE              0x01
 #define           OX_MODE                   0x00
