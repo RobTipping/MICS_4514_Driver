@@ -7,8 +7,8 @@
  * @date 05/12/2022
  * @url
  */
-#ifndef __DFROBOT_MICS_H__
-#define __DFROBOT_MICS_H__
+#ifndef __MICS_4514_H__
+#define __MICS_4514_H__
 
 #include "stm32L0xx_hal.h" // Needed for I2C
 
