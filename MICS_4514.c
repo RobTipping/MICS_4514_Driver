@@ -9,8 +9,9 @@
  */
 #include "MICS_4514.h"
 
-#define	MICS_ADDRESS	 (MICS_ADDRESS_0 << 1)
+#define	MICS_ADDRESS	 (MICS_ADDRESS_0 << 1) // Define sensor address and bit shift by 1
 
+//variables to store calibrated base sensor readings
 int16_t  r0_ox;
 int16_t  r0_red;
 
@@ -35,6 +36,7 @@ uint8_t MICS_Initialise(MICS *dev, I2C_HandleTypeDef *i2cHandle)
 	return errNum;
 }
 
+// Get base readings should be taken 3 minutes after sensor is powered on.
 HAL_StatusTypeDef MICS_Calabrate(MICS *dev)
 {
 	uint16_t oxData    = 0;
@@ -46,7 +48,7 @@ HAL_StatusTypeDef MICS_Calabrate(MICS *dev)
 	return status;
 }
 
-//Settings
+// Turn sensor on and off
 HAL_StatusTypeDef MICS_WakeUp(MICS *dev)
 {
 	uint8_t regData = WAKE_UP_MODE;
@@ -66,9 +68,9 @@ HAL_StatusTypeDef MICS_ReadSingleGasData(MICS *dev, uint8_t type)
 	uint16_t oxData    = 0;
 	uint16_t redData   = 0;
 	uint16_t powerData = 0;
-	HAL_StatusTypeDef status = MICS_getData( dev, &oxData, &redData, &powerData);
-	float RS_R0_RED_data = (float)(powerData - redData) / (float)r0_red;
-	float RS_R0_OX_data = (float)(powerData - oxData) / (float)r0_ox;
+	HAL_StatusTypeDef status = MICS_getData( dev, &oxData, &redData, &powerData); // gets all sensor data
+	float RS_R0_RED_data = (float)(powerData - redData) / (float)r0_red; // converts to red data
+	float RS_R0_OX_data = (float)(powerData - oxData) / (float)r0_ox;	// converts to ox data
 	switch(type){
 	case CO:
 		dev->carbonMonoxide = MICS_ReadCarbonMonoxide(RS_R0_RED_data);
@@ -114,7 +116,7 @@ HAL_StatusTypeDef MICS_ReadAllGasData(MICS *dev)
 	return status;
 }
 
-//Calculate data
+//Calculate gas reading from Red or ox data
 float MICS_ReadCarbonMonoxide(float data)
 {
 	if(data > 0.425)
