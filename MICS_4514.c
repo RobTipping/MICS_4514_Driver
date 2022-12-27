@@ -30,10 +30,23 @@ uint8_t MICS_Initialise(MICS *dev, I2C_HandleTypeDef *i2cHandle)
 	dev-> nitricOxide = 0;
 	dev-> nitrogenDioxide = 0;
 
-	uint8_t errNum = 0;
-	// need to write handshake
 
-	return errNum;
+	//Handshake returns 1 if error with device.
+	uint8_t regData[3] = {0x00};
+
+	if (MICS_ReadRegisters( dev, 0x00, regData, 3) != HAL_OK)
+		return 1;
+
+	if (regData[0] != (MICS_ADDRESS >> 1))
+		return 1;
+
+	if (regData[1] != 0xDF)
+			return 1;
+
+	if (regData[2] != 0x10)
+			return 1;
+
+	return 0;
 }
 
 // Get base readings should be taken 3 minutes after sensor is powered on.
