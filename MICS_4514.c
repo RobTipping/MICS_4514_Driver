@@ -1,5 +1,5 @@
 /*!
- * @file MICS_4514.cpp
+ * @file MICS_4514.c
  * @brief Simple I2C driver for MICS 4514 MEMS gas sensor
  * @license The MIT License (MIT)
  * @author Rob Tipping
